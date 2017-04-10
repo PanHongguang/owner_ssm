@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cross.dao.TUserDao">
+	
+	<select id="findUserByUsername" parameterType="String" resultType="TUser">
+		SELECT 
+			userName, password
+		FROM
+			t_user
+		WHERE 
+			userName = #{userName}
+	</select>
+	
+	<select id="findRoles" parameterType="String" resultType="String">
+		SELECT 
+			r.roleName 
+		FROM 
+			t_user u
+		LEFT JOIN 
+			t_role r
+		ON 
+			u.roleId = r.id
+		WHERE 
+			u.userName = #{userName}
+	</select>
+	
+	<select id="findPermissions" parameterType="String" resultType="String">
+		SELECT 
+			p.permissionName 
+		FROM 
+			t_user u
+		LEFT JOIN 
+			t_role r
+		ON 
+			u.roleId = r.id
+		LEFT JOIN 
+			t_permission p
+		ON 
+			r.id = p.roleId
+		WHERE 
+			u.userName = #{userName}
+	</select>
+</mapper>
